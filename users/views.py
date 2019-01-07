@@ -1,9 +1,11 @@
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 
-from users.forms import UserRegisterForm
+from users.forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 
 
 class RegisterView(SuccessMessageMixin, generic.CreateView):
@@ -17,6 +19,25 @@ class RegisterView(SuccessMessageMixin, generic.CreateView):
         return f'{ username } has been registered!'
 
 
-class ProfileView(LoginRequiredMixin, generic.TemplateView):
+class ProfileView(LoginRequiredMixin, generic.View):
     template_name = 'users/profile.html'
-    # login_url = '/users/login/'
+
+    def get(self, request):
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+
+        context = {'u_form': u_form, 'p_form': p_form}
+        return render(request, 'users/profile.html', context)
+
+    def post(self, request):
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, 'The user has been updated.')
+        else:
+            messages.warning(request, 'The profile has not been updated')
+
+        return redirect('users:profile')

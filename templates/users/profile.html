@@ -11,6 +11,12 @@
         </div>
       </div>
       <!-- FORM HERE -->
+      <form method='post'>
+        {% csrf_token %}
+        {{ u_form|crispy }}
+        {{ p_form|crispy }}
+        <button class="btn btn-outline-info" type="submit">Update</button>
+      </form>
     </div>
 {% endblock %}
 
