@@ -20,6 +20,7 @@ class RegisterView(SuccessMessageMixin, generic.CreateView):
 
 
 class ProfileView(LoginRequiredMixin, generic.View):
+    """Form to edit a user profile. It uses generic.View because it contains two forms."""
     template_name = 'users/profile.html'
 
     def get(self, request):

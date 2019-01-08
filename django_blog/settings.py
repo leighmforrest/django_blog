@@ -79,9 +79,9 @@ WSGI_APPLICATION = 'django_blog.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('DB_DATABASE'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'NAME': 'django_blog',
+        'USER': '',
+        'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '',
     }

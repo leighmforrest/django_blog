@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="content-section">
+    <form method='post' novalidate>
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">
+                {% if object.title %}
+                    {{ object.title }}
+                {% else %}
+                    New Post
+                {% endif %}
+            </legend>
+            {{ form|crispy }}
+        </fieldset>
+        <button class="btn btn-outline-info" type="submit">Post</button>
+    </form>
+</div>
+{% endblock %}
